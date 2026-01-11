@@ -41,7 +41,7 @@ const contentLength = parseInt(
 );
 
 // 不满足条件，放行原响应
-if (contentLength <= 60000) {
+if (contentLength <= 90000) {
   $done(res);
   return;
 }
