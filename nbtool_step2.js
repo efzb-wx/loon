@@ -53,11 +53,13 @@ $httpClient.post(STEP1_REQUEST, function (error, response, data) {
     return;
   }
 
-  console.log("✅ 使用第一步返回值替换当前响应");
+  console.log("⏱ 延时 1000ms 后返回替换响应");
 
-  $done({
-    status: 200,
-    headers: res.headers,
-    body: data
-  });
+  setTimeout(() => {
+    $done({
+      status: 200,
+      headers: res.headers,
+      body: data
+    });
+  }, 1000);
 });
