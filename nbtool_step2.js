@@ -53,7 +53,7 @@ $httpClient.post(STEP1_REQUEST, function (error, response, data) {
     return;
   }
 
-  console.log("⏱ 延时 1000ms 后返回替换响应");
+  console.log("⏱ 延时 5000ms 后返回替换响应");
 
   setTimeout(() => {
     $done({
@@ -61,5 +61,5 @@ $httpClient.post(STEP1_REQUEST, function (error, response, data) {
       headers: res.headers,
       body: data
     });
-  }, 1000);
+  }, 5000);
 });
