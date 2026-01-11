@@ -1,5 +1,5 @@
-#!name=nbtool Step2 Replace
-#!desc=POST /nb/app 大包触发 → 二次请求 → 替换返回值
+#!name=手机助手
+#!desc=实时更新VIP
 #!author=efzb-wx
 
 [Script]
