@@ -1,0 +1,9 @@
+[Plugin]
+YouTube UA Upgrade = https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/youtube_ua_upgrade.js, tag=YouTube-UA, enabled=true
+
+[Rule]
+DOMAIN-SUFFIX,google.com,YouTube UA Upgrade
+DOMAIN-SUFFIX,googleapis.com,YouTube UA Upgrade
+DOMAIN-SUFFIX,ytimg.com,YouTube UA Upgrade
+DOMAIN-SUFFIX,googleadservices.com,YouTube UA Upgrade
+DOMAIN-SUFFIX,gstatic.com,YouTube UA Upgrade
