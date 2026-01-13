@@ -1,35 +1,38 @@
 /**
- * nb_capture.js
- * 截获指定POST请求的data和cookie
+ * nb_sign.js
+ * 每天10点自动发送签到包
  */
 
-const TARGET_DATA =
-  "D207CC6B227A23B9C065D48666789C35CD453B35CCBD39AD8112F297F";
+let data = $persistentStore.read("NB_DATA");
+let cookie = $persistentStore.read("NB_COOKIE");
 
-let body = $request.body || "";
-let headers = $request.headers || {};
-let cookie = headers.Cookie || headers.cookie || "";
-
-if (
-  $request.method === "POST" &&
-  body.includes(TARGET_DATA)
-) {
-  // 保存完整 data（body）
-  $persistentStore.write(body, "NB_DATA");
-
-  // 保存 cookie
-  if (cookie) {
-    $persistentStore.write(cookie, "NB_COOKIE");
-  }
-
-  // 通知提示
-  $notification.post(
-    "NBTool",
-    "",
-    "截获成功"
-  );
-
-  console.log("✅ 已截获 data 和 cookie");
+if (!data || !cookie) {
+  console.log("❌ 未找到 data 或 cookie，无法签到");
+  $done();
 }
 
-$done({});
+let options = {
+  url: "http://nbtool8.com:9527/nb/app",
+  method: "POST",
+  headers: {
+    "Host": "nbtool8.com:9527",
+    "Accept": "*/*",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Cookie": cookie,
+    "Accept-Language": "zh-CN,zh-Hans;q=0.9",
+    "Accept-Encoding": "gzip, deflate",
+    "User-Agent": "XNZS/1 CFNetwork/1410.0.3 Darwin/22.6.0",
+    "Connection": "Keep-Alive"
+  },
+  body: data
+};
+
+$httpClient.post(options, function (error, response, body) {
+  if (error) {
+    console.log("❌ 签到请求失败:", error);
+  } else {
+    console.log("✅ 签到请求已发送");
+    console.log("返回内容:", body);
+  }
+  $done();
+});
