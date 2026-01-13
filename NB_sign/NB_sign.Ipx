@@ -4,12 +4,7 @@
 #!icon=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb.png
 
 [Argument]
-# 每日签到开关
-[NB助手]
 每日签到 = true
-
-# 定时 Cron 参数
-[NB助手]
 定时参数Cron = 0 10 * * *
 
 [Script]
