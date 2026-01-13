@@ -1,6 +1,7 @@
 #!name=NBTool 数据截获 + 自动签到
 #!desc=截获指定POST的data与cookie并每天10点自动签到
 #!author=wx
+#!icon=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb.png
 
 [Script]
 # 第一部分：截获 data + cookie
