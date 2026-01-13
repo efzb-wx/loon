@@ -1,34 +1,16 @@
 /**
  * nb_sign.js
- * NBTool 自动签到脚本
- * - 读取插件设置【每日签到】
- * - 使用捕获的 data + cookie 发包
- * - 根据返回 body 长度判断签到结果
+ * 每天10点自动发送签到包，并根据返回长度提示结果
  */
 
- /************** 读取插件设置 **************/
-let enable = $argument["每日签到"];
-
-if (enable !== "true") {
-  console.log("⏸ NB助手：每日签到已关闭");
-  $done();
-}
-
-/************** 读取存储数据 **************/
 let data = $persistentStore.read("NB_DATA");
 let cookie = $persistentStore.read("NB_COOKIE");
 
 if (!data || !cookie) {
-  console.log("❌ NB助手：缺少 data 或 cookie");
-  $notification.post(
-    "NB助手",
-    "",
-    "未截获数据，请先打开APP一次"
-  );
+  console.log("❌ 未找到 data 或 cookie，无法签到");
   $done();
 }
 
-/************** 构造请求 **************/
 let options = {
   url: "http://nbtool8.com:9527/nb/app",
   method: "POST",
@@ -45,15 +27,10 @@ let options = {
   body: data
 };
 
-/************** 发送签到请求 **************/
 $httpClient.post(options, function (error, response, body) {
   if (error) {
-    console.log("❌ NB助手：请求失败", error);
-    $notification.post(
-      "NB助手",
-      "",
-      "签到请求失败"
-    );
+    console.log("❌ 签到请求失败:", error);
+    $notification.post("NBTool", "", "签到请求失败");
     $done();
     return;
   }
@@ -67,11 +44,11 @@ $httpClient.post(options, function (error, response, body) {
     msg = "72小时内已签到过";
   }
 
-  console.log("📦 返回长度:", len);
-  console.log("📄 返回内容:", body);
+  console.log("返回长度:", len);
+  console.log("返回内容:", body);
 
   $notification.post(
-    "NB助手 签到结果",
+    "NBTool 签到结果",
     "",
     msg
   );
