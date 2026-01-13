@@ -4,7 +4,7 @@
 
 [Script]
 # 第一部分：截获 data + cookie
-http-request ^http://nbtool8\.com:9527/nb/app$ script-path=https://example.com/nb_capture.js, requires-body=true, timeout=10
+http-request ^http://nbtool8\.com:9527/nb/app$ script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb_capture.js, requires-body=true, timeout=10
 
 # 第二部分：每天上午10点签到
-cron "0 10 * * *" script-path=https://example.com/nb_sign.js, timeout=20, wake-system=true
+cron "0 10 * * *" script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb_sign.js, timeout=20, wake-system=true
