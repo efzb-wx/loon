@@ -1,6 +1,6 @@
 /**
  * nb_sign.js
- * 每天10点自动发送签到包
+ * 每天10点自动发送签到包，并根据返回长度提示结果
  */
 
 let data = $persistentStore.read("NB_DATA");
@@ -30,9 +30,28 @@ let options = {
 $httpClient.post(options, function (error, response, body) {
   if (error) {
     console.log("❌ 签到请求失败:", error);
-  } else {
-    console.log("✅ 签到请求已发送");
-    console.log("返回内容:", body);
+    $notification.post("NBTool", "", "签到请求失败");
+    $done();
+    return;
   }
+
+  let len = body ? body.length : 0;
+  let msg = "未知错误";
+
+  if (len >= 40 && len <= 50) {
+    msg = "签到成功,VIP+3天";
+  } else if (len >= 100 && len <= 110) {
+    msg = "72小时内已签到过";
+  }
+
+  console.log("返回长度:", len);
+  console.log("返回内容:", body);
+
+  $notification.post(
+    "NBTool 签到结果",
+    "",
+    msg
+  );
+
   $done();
 });
