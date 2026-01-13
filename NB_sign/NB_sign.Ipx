@@ -4,12 +4,12 @@
 #!icon=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb.png
 
 [Argument]
-每日签到 = true
-定时参数Cron = 0 10 * * *
+sign_enable = switch,true,tag=每日签到,desc=是否开启每日自动签到
+sign_cron   = input,"0 10 * * *",tag=定时参数Cron,desc=签到任务的 Cron 表达式
 
 [Script]
 # 第一部分：截获 data + cookie（不受开关影响）
 http-request ^http://nbtool8\.com:9527/nb/app$ script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb_capture.js, requires-body=true, timeout=10
 
 # 第二部分：定时签到（受开关 + Cron 控制）
-cron "{定时参数Cron}" script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb_sign.js, timeout=20, wake-system=true
+cron "{sign_cron}" script-path=https://example.com/nb_sign.js, timeout=20, wake-system=true
