@@ -1,11 +1,11 @@
 #!name=NBTool 数据截获 + 自动签到
-#!desc=截获指定POST的data与cookie并每3天自动签到一次
+#!desc=截获指定POST的data与cookie并每隔3天自动签到一次（上午10点签到）
 #!author=wx
 #!icon=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb.png
 
 [Argument]
 sign_enable = switch,true,false,tag=[NB助手]每日签到,desc=是否开启每日自动签到
-sign_cron   = input,"0 0 */3 * *",tag=定时参数Cron,desc=签到任务的 Cron 表达式
+sign_cron   = input,"0 10 */3 * *",tag=定时参数Cron,desc=签到任务的 Cron 表达式
 
 [Script]
 # 第一部分：截获 data + cookie（不受开关影响）
