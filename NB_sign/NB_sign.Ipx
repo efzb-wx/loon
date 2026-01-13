@@ -4,7 +4,7 @@
 #!icon=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb.png
 
 [Argument]
-sign_enable = switch,true,tag=每日签到,desc=是否开启每日自动签到
+sign_enable = switch,true,false,tag=[NB助手]每日签到,desc=是否开启每日自动签到
 sign_cron   = input,"0 0 10 * * *",tag=定时参数Cron,desc=签到任务的 Cron 表达式
 
 [Script]
@@ -15,4 +15,4 @@ http-request ^http://nbtool8\.com:9527/nb/app$ script-path=https://raw.githubuse
 cron {sign_cron} script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb_sign.js, tag = [NB助手]每日签到Task, enable={sign_enable}
 
 [MitM]
-hostname = nbtool8.com
+hostname = nbtool8.com:9527
