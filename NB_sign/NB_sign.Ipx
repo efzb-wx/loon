@@ -13,3 +13,6 @@ http-request ^http://nbtool8\.com:9527/nb/app$ script-path=https://raw.githubuse
 
 # 第二部分：定时签到（受开关 + Cron 控制）
 cron {sign_cron} script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb_sign.js, tag = [NB助手]每日签到Task, enable={sign_enable}
+
+[MitM]
+hostname = nbtool8.com
