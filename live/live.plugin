@@ -1,0 +1,12 @@
+#!name=Live.checkLive 返回值替换
+#!desc=拦截 Live.checkLive 接口并强制返回可观看状态
+#!author=aaa
+#!icon=lock.open
+#!homepage=https://example.com
+
+[MitM]
+hostname = sohg82.55ffsgi.xyz
+
+[Script]
+# 拦截响应（response-body）
+live_check = response-body https:\/\/sohg82\.55ffsgi\.xyz\/appapi\/\/\?service=Live\.checkLive script-path=live_check.js, requires-body=true
