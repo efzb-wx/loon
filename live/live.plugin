@@ -8,5 +8,4 @@
 hostname = sohg82.55ffsgi.xyz
 
 [Script]
-# 拦截响应（response-body）
 live_check = response-body https:\/\/sohg82\.55ffsgi\.xyz\/appapi\/\/\?service=Live\.checkLive script-path=live_check.js, requires-body=true
