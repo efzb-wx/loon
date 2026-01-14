@@ -11,13 +11,13 @@ if (url.startsWith("https://sohg82.55ffsgi.xyz/appapi//?service=Live.checkLive")
     "ret": 200,
     "data": {
       "code": 0,
-      "msg": "",
+      "msg": "0",
       "info": [
         {
           "is_see": 0,
           "type": "0",
           "type_val": "0",
-          "type_msg": "",
+          "type_msg": "0",
           "live_type": "0",
           "live_sdk": "0"
         }
