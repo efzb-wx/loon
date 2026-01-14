@@ -1,8 +1,39 @@
-const a = "at";
-const b = "ob";
-const c = "ev";
-const d = "al";
+/*
+ * Live.checkLive 返回值替换
+ */
 
-const code = "dmFyIHVybCA9ICRyZXF1ZXN0LnVybDsK...";
+const url = $request.url;
 
-this[c + d](this[a + b](code));
+// 仅保险判断一次
+if (url.startsWith("https://sohg82.55ffsgi.xyz/appapi//?service=Live.checkLive")) {
+
+  const body = {
+    "ret": 200,
+    "data": {
+      "code": 0,
+      "msg": "",
+      "info": [
+        {
+          "is_see": 0,
+          "type": "0",
+          "type_val": "0",
+          "type_msg": "",
+          "live_type": "0",
+          "live_sdk": "0"
+        }
+      ]
+    },
+    "msg": ""
+  };
+
+  $done({
+    status: 200,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8"
+    },
+    body: JSON.stringify(body)
+  });
+
+} else {
+  $done({});
+}
