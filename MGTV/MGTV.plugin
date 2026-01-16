@@ -1,0 +1,16 @@
+#!name=MGTV (WeiGiegie)
+#!desc=芒果TV：VIP/去广告（加载远程脚本版本）
+#!author=WeiGiegie (Loon wrapper by ChatGPT)
+#!homepage=https://github.com/WeiGiegie/666
+#!icon=https://raw.githubusercontent.com/WeiGiegie/666/main/icon.png
+
+[Script]
+# 说明：
+# 1) 这里的 URL-REGEX 我先按芒果TV常见域名做了“较宽泛”的匹配（mgtv.com / imgo.tv）。
+# 2) 如果你希望更精准（避免误伤/提升稳定性），建议你之后用脚本注释里的匹配规则替换这里的正则。
+
+http-response ^https?:\/\/(.+\.)?(mgtv\.com|imgo\.tv)\/ script-path=MGTV.js requires-body=true timeout=30
+http-request  ^https?:\/\/(.+\.)?(mgtv\.com|imgo\.tv)\/ script-path=MGTV.js timeout=30
+
+[MITM]
+hostname = *.mgtv.com, *.imgo.tv
