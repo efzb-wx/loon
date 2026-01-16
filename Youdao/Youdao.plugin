@@ -1,0 +1,18 @@
+#!name=Youdao
+#!desc=Youdao 脚本（由原 youdao.js 转换为 Loon：plugin + js）
+#!author=WeiGiegie / converted
+#!homepage=https://github.com/WeiGiegie/666
+#!icon=
+
+[Script]
+# 这里会放你原脚本对应的 http-response / http-request 脚本挂载点
+# 例如：
+# http-response ^https?:\/\/xxx\.youdao\.com\/.* script-path=Youdao.js, requires-body=true, timeout=30, tag=Youdao
+
+[Rewrite]
+# 如果原脚本有 rewrite/redirect/reject 等，这里会写对应 Loon 规则
+# 例如：
+# ^https?:\/\/xxx url script-response-body Youdao.js
+
+[MITM]
+hostname = %APPEND% xxx.youdao.com, yyy.youdao.com
