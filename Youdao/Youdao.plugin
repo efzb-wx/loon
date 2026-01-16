@@ -5,9 +5,11 @@
 #!icon=
 
 [Script]
-# 这里会放你原脚本对应的 http-response / http-request 脚本挂载点
-# 例如：
-# http-response ^https?:\/\/xxx\.youdao\.com\/.* script-path=Youdao.js, requires-body=true, timeout=30, tag=Youdao
+# 有道翻译官 - 主脚本（response body）
+http-response ^https?:\/\/.+youdao\.com\/(user\/info|vip\/user\/extra\/status) script-path=Youdao.js, requires-body=true, timeout=30, tag=Youdao-Response
+
+# 有道用户登录信息（request header）
+http-request ^https?:\/\/.+youdao\.com\/user\/info script-path=YoudaoUserLogin.js, timeout=30, tag=Youdao-Request
 
 [Rewrite]
 # 如果原脚本有 rewrite/redirect/reject 等，这里会写对应 Loon 规则
@@ -15,4 +17,4 @@
 # ^https?:\/\/xxx url script-response-body Youdao.js
 
 [MITM]
-hostname = %APPEND% xxx.youdao.com, yyy.youdao.com
+hostname = dict-ai-subtitle.youdao.com,dict.youdao.com
