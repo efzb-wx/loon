@@ -1,0 +1,10 @@
+#!name=语音翻译-实时翻译同声传译（永久会员）
+#!desc=fy.yunmiao.tech 解锁会员信息（脚本拆分为 plugin + js）
+#!author=WeiGiegie
+#!homepage=https://t.me/GieGie777
+
+[Script]
+http-response ^https?:\/\/fy\.yunmiao\.tech\/api\/user\/index script-path=https://raw.githubusercontent.com/WeiGiegie/666/main/yyfy.js, requires-body=true, timeout=10, tag=语音翻译-永久会员
+
+[MITM]
+hostname = fy.yunmiao.tech
