@@ -1,0 +1,19 @@
+#!name=咪咕视频 VIP & 去广告 (mgsp)
+#!desc=将原 Surge/QuanX 重写规则转换为 Loon 插件，脚本为 mgsp.loon.js
+#!author=WeiGiegie / Loon转换
+#!homepage=https://github.com/WeiGiegie/666
+
+[Script]
+# 咪咕视频 VIP 相关（响应体重写）
+http-response ^https?:\/\/(play|dis).*miguvideo\.com\/(play|dis)(url|play)\/.*$ script-path=mgsp.loon.js, requires-body=true, timeout=60
+
+# 播放请求 Header 相关（原仓库另一个脚本：mgspck.js；如不需要可注释）
+http-request ^https?:\/\/play\.miguvideo\.com\/playurl\/v1\/play\/playurl\?2Kvivid=true?.*=true$ script-path=https://raw.githubusercontent.com/WeiGiegie/666/main/mgspck.js, timeout=60
+
+[Rewrite]
+# 开屏广告
+^https:\/\/.*miguvideo\.com\/request\/sdk reject-200
+^https:\/\/common-sc\.miguvideo\.com\/task\/v7\/task-list\/cmvideo\/visitor reject-200
+
+[MITM]
+hostname = *.miguvideo.com
