@@ -10,16 +10,16 @@ if (url.startsWith("https://sohg82.55ffsgi.xyz/appapi//?service=Live.checkLive")
   const body = {
     "ret": 200,
     "data": {
-      "code": 1,
-      "msg": "1",
+      "code": 0,
+      "msg": "0",
       "info": [
         {
-          "is_see": 1,
-          "type": "1",
-          "type_val": "1",
-          "type_msg": "1",
-          "live_type": "1",
-          "live_sdk": "1"
+          "is_see": 0,
+          "type": "0",
+          "type_val": "0",
+          "type_msg": "0",
+          "live_type": "0",
+          "live_sdk": "0"
         }
       ]
     },
