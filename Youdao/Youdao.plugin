@@ -6,10 +6,10 @@
 
 [Script]
 # 有道翻译官 - 主脚本（response body）
-http-response ^https?:\/\/.+youdao\.com\/(user\/info|vip\/user\/extra\/status) script-path=Youdao.js, requires-body=true, timeout=30, tag=Youdao-Response
+http-response ^https?:\/\/.+youdao\.com\/(user\/info|vip\/user\/extra\/status) script-path=https://raw.githubusercontent.com/WeiGiegie/666/main/youdao.js, requires-body=true, timeout=30, tag=Youdao-Response
 
 # 有道用户登录信息（request header）
-http-request ^https?:\/\/.+youdao\.com\/user\/info script-path=YoudaoUserLogin.js, timeout=30, tag=Youdao-Request
+http-request ^https?:\/\/.+youdao\.com\/user\/info script-path=https://raw.githubusercontent.com/WeiGiegie/666/main/youdaouserlogin.js, timeout=30, tag=Youdao-Request
 
 [Rewrite]
 # 如果原脚本有 rewrite/redirect/reject 等，这里会写对应 Loon 规则
