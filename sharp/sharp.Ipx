@@ -1,0 +1,16 @@
+#!name=Live API 返回值替换（评论区开关）
+#!desc=拦截 Live.checkLive，Live.enterRoom 支持评论区开关控制
+#!author=chatGpt
+#!icon=lock.open
+
+[MITM]
+hostname = sohg82.55ffsgi.xyz
+
+[Argument]
+LiveEnterRoom_enable = switch,true,false,tag=[鲨鱼]评论区,desc=评论区开关
+
+[Script]
+
+http-response ^https://sohg82\.55ffsgi\.xyz/appapi//\?service=Live\.checkLive script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/live/live_check.js,tag=破解vip和密码
+
+http-response ^https:\/\/sohg82\.55ffsgi\.xyz\/appapi\/\?service=Live\.enterRoom script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/live/live_check.js,tag = [鲨鱼]评论区, enable={LiveEnterRoom_enable}
