@@ -1,0 +1,37 @@
+#!name=酷我音乐
+#!desc=解锁会员 / 听书 / 皮肤
+#!homepage=https://github.com/Yuheng0101/X
+#!openUrl=https://github.com/Yuheng0101/X
+#!version=1.1.0
+
+[Script]
+
+# ===== 酷我会员 =====
+http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/enc\/user\/vip script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/vip\/v2\/user\/vip script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vipTab\/myTab\/base script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+# ===== 音乐接口 =====
+http-request ^https?:\/\/music(pay)?\.kuwo\.cn\/music\.pay\?newver=3 script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-response ^https?:\/\/.+\.kuwo\.cn\/mobi\.s\?f=kwxs&q= script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+# ===== 听书 =====
+http-response ^https?:\/\/tingshu\.kuwo\.cn\/api\/v2\/pay\/app\/getConfigInfo script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-response ^https?:\/\/tingshu\.kuwo\.cn\/v2\/api\/pay\/payInfo\/kwplayer\/payMiniBar script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-request ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?simpleToken=1 script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-response ^https?:\/\/audiobookpay\.kuwo\.cn\/a\.p\?newver=3 script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+# ===== 皮肤 / 装扮 =====
+http-response ^https?:\/\/vip1\.kuwo\.cn\/(commercia\/)?vip\/(v2\/theme\?op=gd|(player\/getStyleListByModel|hanger\/wear)) script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+http-response ^https?:\/\/vip1\.kuwo\.cn\/commercia\/vip\/dressCenter\/getTabList script-path=https://raw.githubusercontent.com/Yuheng0101/X/main/Scripts/kuwo.js,requires-body=true,timeout=60
+
+
+[MITM]
+hostname = *.kuwo.cn
