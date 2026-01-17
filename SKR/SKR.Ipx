@@ -6,7 +6,7 @@
 
 [Script]
 # 这三个接口都用同一个脚本处理（type=http-response）
-http-response ^https:\/\/api\.hb174\.top:8081\/skrman\/servlet\/UserSignV2 script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/SKR/HBReplace.js
+http-response ^https://api.hb174.top:8081/skrman/servlet/UserSignV2$ script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/SKR/HBReplace.js
 #http-response ^https:\/\/api\.hb174\.top\:8081\/skrman\/servlet\/UserCheckV4 script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/SKR/HBReplace.js
 #http-response ^https:\/\/api\.hb174\.top\:8081\/skrman\/servlet\/UserInfoGet script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/SKR/HBReplace.js
 #UserInfoGet = type=http-response,pattern=^https:\/\/api\.hb174\.top:8081\/skrman\/servlet\/UserInfoGet,script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/SKR/HBReplace.js,requires-body=true
