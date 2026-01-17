@@ -1,0 +1,12 @@
+#!name=SKR达人
+#!desc=会员VIP
+#!author=chatgpt
+#!homepage=
+#!icon=
+
+[Script]
+# 这三个接口都用同一个脚本处理（type=http-response）
+HBReplace = type=http-response,pattern=^https:\/\/api\.hb174\.top:8081\/skrman\/servlet\/(UserSignV2|UserCheckV4|UserInfoGet).*,requires-body=true,max-size=0,script-path=HBReplace.js
+
+[MITM]
+hostname = api.hb174.top
