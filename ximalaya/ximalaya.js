@@ -1,0 +1,22 @@
+#!name=喜马拉雅-会员调试+去广告
+#!desc=喜马拉雅音频解析、会员调试、去广告
+#!author=WeiGiegie
+#!date=2026-01-19
+#!homepage=https://t.me/GieGie777
+#!icon=https://raw.githubusercontent.com/WeiGiegie/666/main/ximalaya.png
+
+[Script]
+# 喜马拉雅音频解析 + 会员解锁
+response-body ^https?:\/\/.+((ximalaya)|(xmcdn)).+(mobile-user\/v2\/homePage|product\/detail\/v1|v1\/album\/track\/ts|mobile-playpage\/track\/v4\/baseInfo\/ts) script-path=https://raw.githubusercontent.com/WeiGiegie/666/main/ximalaya.js,requires-body=true,timeout=10,tag=喜马拉雅会员解锁
+
+[Rewrite]
+# 去广告
+^https?:\/\/passport\.ximalaya\.com\/friendship-mobile\/v1\/findFriendsBanner\/show\/ url reject
+^https?:\/\/xdcs-collector\.ximalaya\.com\/api\/v1\/realtime url reject
+^https?:\/\/adse\.wsa\.ximalaya\.com url reject
+^https?:\/\/adse\.ximalaya\.com url reject
+^https?:\/\/ad\.ximalaya\.com url reject
+^https?:\/\/ulogs\.umeng\.com\/unify_logs url reject
+
+[MITM]
+hostname = *.ximalaya.com, *.xmcdn.com, passport.ximalaya.com, mobwsa.ximalaya.com, mobile.ximalaya.com, apisg.himalaya.com, adse.ximalaya.com, ulogs.umeng.com
