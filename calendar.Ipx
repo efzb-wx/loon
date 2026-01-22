@@ -1,6 +1,6 @@
 #!name=黄历&节假日
-#!desc=
+#!desc=显示今日黄历与节假日倒数
 [Panel]
 今日黄历&节假日倒数 = script-name=今日黄历&节假日倒数, update-interval=86400
 [Script]
-今日黄历&节假日倒数 = type=generic, timeout=10, script-path=https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Script/Almanac.js
+今日黄历&节假日倒数 = type=generic, script-path=https://raw.githubusercontent.com/jnlaoshu/MySelf/main/Script/Almanac.js, timeout=10
