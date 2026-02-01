@@ -35,7 +35,7 @@ const RESPONSES = {
     "yeyJXZiQjOsAmIz1yZ6InIctmI4VGcylVZpRWbcVjIxozNwcAAAQDNyASf9J",
 
   "9100:/showBuyVip":
-    "yeyJXZiQjOsAmIz1yZ6IXM=0",
+    "yeyJXZiQjOsAmIz1yZ6IXM=1",
 
   "10210:/getIOSConfig":
     "yeyJXZiQjOsAmIz1yZ6IyewJXYUlXelBjIioTMiICLvJmbpxmbGVWalxGRzlWYsJSZ6IHM91"
