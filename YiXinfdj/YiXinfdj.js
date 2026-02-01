@@ -47,8 +47,7 @@ if (RESPONSES[key]) {
   $done({
     status: 200,
     headers: {
-      "Access-Control-Allow-Origin": "*",
-      "content-length": String(Buffer.byteLength(body, "utf8"))
+      "Access-Control-Allow-Origin": "*"
     },
     body: RESPONSES[key]
   });
