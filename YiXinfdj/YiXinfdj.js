@@ -47,8 +47,7 @@ if (RESPONSES[key]) {
   $done({
     status: 200,
     headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "no-store"
+      "Access-Control-Allow-Origin": "*"
     },
     body: RESPONSES[key]
   });
