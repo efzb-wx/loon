@@ -48,7 +48,7 @@ if (RESPONSES[key]) {
     status: 200,
     headers: {
       "Access-Control-Allow-Origin": "*",
-      "content-length": String(Buffer.byteLength(body, "utf8")),
+      "content-length": String(Buffer.byteLength(body, "utf8"))
     },
     body: RESPONSES[key]
   });
