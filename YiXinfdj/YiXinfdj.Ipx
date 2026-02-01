@@ -4,7 +4,7 @@
 
 [Script]
 # 匹配该 IP 的所有 http/https 响应（含任意端口、任意路径）
-http-response ^https?:\/\/123\.207\.1\.205(?::\d+)?\/.* script-path=YiXinfdj.js, requires-body=false, timeout=10, tag=123207-rewrite, enabled=true
+http-response ^https?:\/\/123\.207\.1\.205(?::\d+)?\/.* script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/YiXinfdj/YiXinfdj.js, requires-body=false, timeout=10, tag=123207-rewrite, enabled=true
 
 [MITM]
 # 如果你访问的是 https（而不是 http），需要开启 MITM 并包含该 IP
