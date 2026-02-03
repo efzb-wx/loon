@@ -1,5 +1,5 @@
 #!name=NBTool 数据截获 + 自动签到
-#!desc=截获指定POST的data与cookie并每天上午10点自动签到一次
+#!desc=截获指定POST的data与cookie并每天上午10点自动签到一次（第一次使用时，正常看10个广告获取3天临时VIP，之后该脚本自动获取并延长VIP）
 #!author=wx
 #!icon=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/NB_sign/nb.png
 
