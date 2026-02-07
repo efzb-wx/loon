@@ -1,0 +1,8 @@
+# Maxwell OpenId -> mswefls
+# 拦截 https://jde.mtbcpt.com/api/JDEMaxwellApi/GetOpenId 的响应，提取 data.openId 写入持久化 mswefls
+
+[Script]
+http-response ^https:\/\/jde\.mtbcpt\.com\/api\/JDEMaxwellApi\/GetOpenId script-path=maxwell_openid.js, requires-body=true, timeout=10, tag=Maxwell-OpenId
+
+[MITM]
+hostname = jde.mtbcpt.com
