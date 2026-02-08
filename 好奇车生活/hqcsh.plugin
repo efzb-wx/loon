@@ -1,0 +1,17 @@
+#!name=好奇车生活(小程序)
+#!desc=抓取 accountId
+#!author=yang7758258
+#!homepage=https://github.com/yang7758258/ohhh_QL-Script
+#!icon=
+  
+[Argument]
+sign_enable = switch,true,false,tag=[好奇车生活]每日签到,desc=是否开启每日自动签到
+sign_cron   = input,"0 10 * * *",tag=[好奇车生活]定时参数Cron,desc=签到任务的 Cron 表达式
+  
+[Script]
+# 只在请求发出时触发（http-request）
+http-request ^https:\/\/channel\.cheryfs\.cn\/archer\/activity-api\/cherycar\/getEncryptKey$ script-path=hqcsh.js, tag=保存accountId到hqcsh, enable=true
+cron {sign_cron} script-path=, tag = [好奇车生活]每日签到Task, enable={sign_enable}
+  
+[MITM]
+hostname = channel.cheryfs.cn
