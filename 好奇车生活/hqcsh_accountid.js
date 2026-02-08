@@ -9,12 +9,14 @@
     const req = $request || {};
     const headers = req.headers || {};
 
-    // Loon/不同环境下 header key 可能大小写不同，做一次不区分大小写的读取
+    // 不区分大小写读取 header
     function getHeaderValueInsensitive(hs, key) {
       if (!hs) return "";
       const target = key.toLowerCase();
       for (const k in hs) {
-        if (String(k).toLowerCase() === target) return String(hs[k] ?? "").trim();
+        if (String(k).toLowerCase() === target) {
+          return String(hs[k] ?? "").trim();
+        }
       }
       return "";
     }
@@ -31,8 +33,12 @@
 
     if (ok) {
       console.log(`[hqcsh] 写入成功：hqcsh = ${accountId}`);
-      // 如果你想弹通知，把下面注释去掉：
-      // $notification.post("CheryFS", "hqcsh 写入成功", accountId);
+
+      // ✅ 成功通知
+      $notification.post(
+        "获取到好奇车生活accountId",
+        accountId
+      );
     } else {
       console.log("[hqcsh] 写入失败（persistentStore.write 返回 false）");
     }
