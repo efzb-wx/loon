@@ -10,7 +10,7 @@ sign_cron   = input,"0 10 * * *",tag=[好奇车生活]定时参数Cron,desc=签�
   
 [Script]
 # 只在请求发出时触发（http-request）
-http-request ^https:\/\/channel\.cheryfs\.cn\/archer\/activity-api\/cherycar\/getEncryptKey$ script-path=hqcsh.js, tag=保存accountId到hqcsh, enable=true
+http-request ^https:\/\/channel\.cheryfs\.cn\/archer\/activity-api\/cherycar\/getEncryptKey$ script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/%E5%A5%BD%E5%A5%87%E8%BD%A6%E7%94%9F%E6%B4%BB/hqcsh_accountid.js, tag=保存accountId到hqcsh, enable=true
 cron {sign_cron} script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/%E5%A5%BD%E5%A5%87%E8%BD%A6%E7%94%9F%E6%B4%BB/hqcsh.js, tag = [好奇车生活]每日签到Task, enable={sign_enable}
   
 [MITM]
