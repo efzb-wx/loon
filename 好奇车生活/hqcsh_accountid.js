@@ -36,8 +36,9 @@
 
       // ✅ 成功通知
       $notification.post(
-        "获取到好奇车生活accountId",
-        accountId
+            "获取到好奇车生活accountId",
+            "",
+            ""
       );
     } else {
       console.log("[hqcsh] 写入失败（persistentStore.write 返回 false）");
