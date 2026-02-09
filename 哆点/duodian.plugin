@@ -1,0 +1,9 @@
+#!name=多点-CK+UserId(多账号)
+#!desc=抓登录接口并主动查询 userId，多账号按 userId 去重更新，保存到 duodianck
+#!author=efzbwx
+
+[Script]
+http-response ^https:\/\/passport\.dmall\.com\/wechatApplet\/loginInSilenceWithoutPhone script-path=duodian.js, requires-body=true, timeout=20, tag=duodian
+
+[MITM]
+hostname = passport.dmall.com, weixinapp.dmall.com
