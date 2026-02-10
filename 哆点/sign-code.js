@@ -1,12 +1,7 @@
 /**
- * 多点：签到 + 生成邀请码 + 互刷赞(sendKey) - Loon
+ * 多点：签到 + 生成邀请码 + 互刷赞(sendKey) - Loon（带随机延迟）
  *
- * duodianck: 多账号 @ 分隔，每条: ticketName=...; token=...; userId=...
- * duodiancode: 多账号生成的邀请码 data，用 @ 分隔（顺序与 duodianck 对齐）
- *
- * 互刷赞规则：
- * 第 i 个账号，使用 (i-1),(i-2),(i-3) 的邀请码（循环取），且不使用自己的邀请码。
- * 总共发 3*n 个包（若 n 太小则会跳过无效/重复/自己邀请码，实际可能少于 3*n）。
+ * ✅ 所有发包之间随机延迟 1~4 秒（整数），避免同时发包
  */
 
 (function () {
@@ -25,6 +20,16 @@
   // ====== checkIn body（你的抓包体，原样放）======
   const BODY_TEMPLATE =
     "tenantId=1&platform=IOS&vendorId=1&trackData=%7B%22session_id%22%3A%22CB7CCC587AC0000290301A01B01C83F0%22%2C%22sdk_type%22%3A%22js%22%2C%22data_seq%22%3A0%2C%22data_version%22%3A%221.0%22%2C%22debug_mode%22%3A%22DEBUG_OFF%22%2C%22client_time%22%3A0%2C%22unique_id%22%3A%22%22%2C%22user_id%22%3A%22%22%2C%22ticket_name%22%3A%2255CBFA466B7FF5593EB30D97C1B49A6C6448C1078A42009AB1060276F254DCAFCCAB0D04491BA410706F9F6AEBF47154D6D11B502604B7A7435FF09746F6E94998AB0AE8881C7E7501DBC9E0B2A093FA3B1B857596A8C7935BCF089517ECF78864BCBD5DB5C5AC3FB466FBD1DE3616B0376DF87C0CAD8F044CA53E7B79A488D5%22%2C%22project%22%3A%22%E5%95%86%E5%9F%8EAPP%22%2C%22env%22%3A%22app_ios%22%2C%22%24system%22%3A%7B%22app_version%22%3A%226.7.2%22%2C%22first_session_time%22%3A1758501034047%2C%22session_count%22%3A30%2C%22imei%22%3A%22%22%2C%22idfa%22%3A%22%22%2C%22mac%22%3A%22%22%2C%22android_id%22%3A%22%22%2C%22user_agent%22%3A%22Mozilla%2F5.0%20%28iPhone%3B%20CPU%20iPhone%20OS%2016_3_1%20like%20Mac%20OS%20X%29%20AppleWebKit%2F605.1.15%20%28KHTML%2C%20like%20Gecko%29%20Mobile%2F15E148Dmall%2F6.7.2%22%2C%22dev_type%22%3A%22iPhone%22%2C%22dev_platform%22%3A%22IOS%22%2C%22dev_platform_version%22%3A%2216.3.1%22%2C%22dev_manufacturer%22%3A%22iPhone14%2C2%22%2C%22dev_carrier%22%3A%22%22%2C%22dev_network_type%22%3A%222%22%2C%22app_notification_state%22%3A%221%22%7D%2C%22%24attrs%22%3A%7B%22page_title%22%3A%22%E7%AD%BE%E5%88%B0%22%2C%22page_url%22%3A%22https%3A%2F%2Fappsign-in.dmall.com%2F%3FdmTransStatusBar%3Dtrue%26dmShowTitleBar%3Dfalse%26bounces%3Dfalse%26dmNeedLogin%3Dtrue%23%2F%22%2C%22vender_id%22%3A%221%22%2C%22store_id%22%3A%2213044%22%7D%2C%22%24source%22%3A%7B%22tpc%22%3A%22%22%2C%22tdc%22%3A%22%22%7D%2C%22system%22%3A%7B%22app_version%22%3A%226.7.2%22%2C%22first_session_time%22%3A1758501034047%2C%22session_count%22%3A30%2C%22imei%22%3A%22%22%2C%22idfa%22%3A%22%22%2C%22mac%22%3A%22%22%2C%22android_id%22%3A%22%22%2C%22user_agent%22%3A%22Mozilla%2F5.0%20%28iPhone%3B%20CPU%20iPhone%20OS%2016_3_1%20like%20Mac%20OS%20X%29%20AppleWebKit%2F605.1.15%20%28KHTML%2C%20like%20Gecko%29%20Mobile%2F15E148Dmall%2F6.7.2%22%2C%22dev_type%22%3A%22iPhone%22%2C%22dev_platform%22%3A%22IOS%22%2C%22dev_platform_version%22%3A%2216.3.1%22%2C%22dev_manufacturer%22%3A%22iPhone14%2C2%22%2C%22dev_carrier%22%3A%22%22%2C%22dev_network_type%22%3A%222%22%2C%22app_notification_state%22%3A%221%22%7D%2C%22attrs%22%3A%7B%22page_title%22%3A%22%E7%AD%BE%E5%88%B0%22%2C%22page_url%22%3A%22https%3A%2F%2Fappsign-in.dmall.com%2F%3FdmTransStatusBar%3Dtrue%26dmShowTitleBar%3Dfalse%26bounces%3Dfalse%26dmNeedLogin%3Dtrue%23%2F%22%2C%22vender_id%22%3A%221%22%2C%22store_id%22%3A%2213044%22%7D%2C%22source%22%3A%7B%22tpc%22%3A%22%22%2C%22tdc%22%3A%22%22%7D%7D";
+
+  // ===== 随机延迟：1~4 秒（整数）=====
+  function randDelaySec() {
+    return Math.floor(Math.random() * 4) + 1; // 1..4
+  }
+  function delayNext(fn, label) {
+    const s = randDelaySec();
+    console.log(`[delay] ${label || "next"} -> ${s}s`);
+    setTimeout(fn, s * 1000);
+  }
 
   // ===== 工具 =====
   function trim(s) { return (s || "").trim(); }
@@ -156,25 +161,23 @@
     });
   }
 
-  // 生成每个人要刷的3个邀请码索引（循环取前1/2/3），并保证不取自己、去重
   function get3CodesForIndex(i, codes) {
     const n = codes.length;
     const self = codes[i];
     const picks = [];
     const seen = {};
 
-    const want = [1, 2, 3].map(k => (i - k + n) % n); // 前1/2/3（循环）
+    const want = [1, 2, 3].map(k => (i - k + n) % n);
     for (const idx of want) {
       const c = codes[idx];
       if (!c) continue;
-      if (self && c === self) continue;      // 不用自己的
-      if (seen[c]) continue;                 // 去重
+      if (self && c === self) continue;
+      if (seen[c]) continue;
       seen[c] = 1;
       picks.push(c);
       if (picks.length >= 3) break;
     }
 
-    // 若 n 太小导致不够 3，尝试从全量里补（仍然跳过自己/重复）
     if (picks.length < 3) {
       for (let k = 0; k < n && picks.length < 3; k++) {
         const c = codes[k];
@@ -185,11 +188,10 @@
         picks.push(c);
       }
     }
-
-    return picks; // 可能少于 3
+    return picks;
   }
 
-  // ===== 主流程：每账号 先签到->生成邀请码；全部拿到 code 后再互刷赞 =====
+  // ===== 主流程：每账号（签到 -> 延迟 -> 邀请码）; 全部完成后（互刷赞每包延迟）=====
   try {
     const accounts = loadAccounts();
     if (accounts.length === 0) {
@@ -198,65 +200,69 @@
     }
 
     const signResults = [];
-    const inviteResults = []; // 与 accounts 对齐：inviteResults[i] = {code,...}
+    const inviteResults = [];
     let idx = 0;
 
     function stepInvite() {
       if (idx >= accounts.length) {
-        // 生成 duodiancode（与账号对齐，用 @ 分隔；失败位置留空会影响对齐，所以这里用占位 ""）
         const codesAligned = inviteResults.map(r => (r && r.ok && r.code) ? r.code : "");
         const rawCodes = codesAligned.join(` ${SPLIT_ACCT} `);
         $persistentStore.write(rawCodes, KEY_CODE);
 
-        // 进入互刷赞
-        return stepSendKey(codesAligned);
+        // 进入互刷赞（先延迟一下再开始）
+        return delayNext(function () {
+          stepSendKey(codesAligned);
+        }, "before sendKey");
       }
 
       const acct = accounts[idx];
+
+      // 发 checkIn
       doCheckin(acct, function (r1) {
         signResults.push(r1);
 
-        doInvite(acct, function (r2) {
-          inviteResults[idx] = r2;
-          idx++;
-          stepInvite();
-        });
+        // checkIn -> invite 之间随机延迟
+        delayNext(function () {
+          doInvite(acct, function (r2) {
+            inviteResults[idx] = r2;
+            idx++;
+
+            // 下一个账号开始前也随机延迟
+            delayNext(stepInvite, "next account");
+          });
+        }, "checkIn->invite");
       });
     }
 
-    const sendKeyResults = []; // 每次 sendKey 记录
+    const sendKeyResults = [];
 
     function stepSendKey(codesAligned) {
       const n = accounts.length;
-
-      // 如果可用邀请码太少，直接结束
       const usable = codesAligned.filter(c => !!c).length;
       if (usable === 0) {
         return finish("未获取到任何邀请码，跳过互刷赞", codesAligned);
       }
 
-      // 构造任务队列：每人最多 3 次
       const tasks = [];
       for (let i = 0; i < n; i++) {
         const picks = get3CodesForIndex(i, codesAligned);
-        for (const code of picks) {
-          tasks.push({ acctIndex: i, inviteCode: code });
-        }
+        for (const code of picks) tasks.push({ acctIndex: i, inviteCode: code });
       }
 
       let t = 0;
       function runTask() {
-        if (t >= tasks.length) {
-          return finish("", codesAligned);
-        }
+        if (t >= tasks.length) return finish("", codesAligned);
 
         const job = tasks[t++];
         const acct = accounts[job.acctIndex];
 
-        doSendKey(acct, job.inviteCode, function (r) {
-          sendKeyResults.push(r);
-          runTask();
-        });
+        // 每次 sendKey 前随机延迟（保证不同时发包）
+        delayNext(function () {
+          doSendKey(acct, job.inviteCode, function (r) {
+            sendKeyResults.push(r);
+            runTask();
+          });
+        }, "sendKey");
       }
 
       runTask();
@@ -277,7 +283,6 @@
         if (!r) return "❌ 未执行";
         return `${r.ok ? "✅" : "❌"} userId=${r.userId} | ${r.code || ""} ${r.msg || ""}`.trim();
       });
-
       const sendLines = sendKeyResults.map(r => {
         const flag = r.ok ? "✅" : "❌";
         return `${flag} userId=${r.userId} -> ${r.inviteCode} | ${r.msg}`;
@@ -286,7 +291,7 @@
       const summary = [
         `签到 成功${okSign}/失败${failSign}`,
         `邀请码 成功${okInvite}/失败${failInvite}（已写入 duodiancode，对齐存储）`,
-        `互刷赞(sendKey) 成功${okSend}/失败${failSend}（实际发送 ${sendKeyResults.length} 次）`,
+        `互刷赞 成功${okSend}/失败${failSend}（实际发送 ${sendKeyResults.length} 次）`,
         extraMsg ? `提示：${extraMsg}` : ""
       ].filter(Boolean).join(" | ");
 
@@ -309,8 +314,8 @@
       return $done({});
     }
 
-    // 启动
-    stepInvite();
+    // 启动（先延迟一下也行，但不是必须）
+    delayNext(stepInvite, "start");
 
   } catch (e) {
     notify("多点任务", "脚本异常", String(e));
