@@ -2,8 +2,13 @@
 #!desc=抓登录接口并主动查询 userId，多账号按 userId 去重更新，保存到 duodianck
 #!author=efzbwx
 
+[Argument]
+sign_enable = switch,true,false,tag=[哆点]每日签到,desc=是否开启每日自动签到
+sign_cron   = input,"0 10 * * *",tag=[哆点]定时参数Cron,desc=签到任务的 Cron 表达式
+
 [Script]
-http-response ^https:\/\/passport\.dmall\.com\/wechatApplet\/loginInSilenceWithoutPhone script-path=duodian.js, requires-body=true, timeout=20, tag=duodian
+http-response ^https:\/\/passport\.dmall\.com\/wechatApplet\/loginInSilenceWithoutPhone script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/%E5%93%86%E7%82%B9/duodian.js, requires-body=true, timeout=20, tag=duodian
+cron {sign_cron} script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/%E5%93%86%E7%82%B9/sign-code.js, tag = [哆点]每日签到Task, enable={sign_enable}
 
 [MITM]
 hostname = passport.dmall.com, weixinapp.dmall.com
