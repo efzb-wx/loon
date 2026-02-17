@@ -24,7 +24,7 @@
   // ===== 随机延迟：1~4 秒（整数）=====
   function randDelaySec() {
 //    return Math.floor(Math.random() * 4) + 1; // 1..4
-    return Math.floor(Math.random() * 4) + 60; // 1..4
+    return Math.floor(Math.random() * 4) + 23; // 1..4
   }
   function delayNext(fn, label) {
     const s = randDelaySec();
