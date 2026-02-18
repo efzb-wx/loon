@@ -164,4 +164,192 @@
     );
 
     post(URL_OPENBOX, headers, OPENBOX_BODY, function (err, data) {
-      if (err) return cb({ ok: false, userId
+      if (err) return cb({ ok: false, userId: acct.userId, msg: String(err) });
+      const p = parseMsgFromJSON(data);
+      cb({ ok: p.ok, userId: acct.userId, msg: p.msg });
+    });
+  }
+
+  function get3CodesForIndex(i, codes) {
+    const n = codes.length;
+    const self = codes[i];
+    const picks = [];
+    const seen = {};
+
+    const want = [1, 2, 3].map(k => (i - k + n) % n);
+    for (const idx of want) {
+      const c = codes[idx];
+      if (!c) continue;
+      if (self && c === self) continue;
+      if (seen[c]) continue;
+      seen[c] = 1;
+      picks.push(c);
+      if (picks.length >= 3) break;
+    }
+
+    if (picks.length < 3) {
+      for (let k = 0; k < n && picks.length < 3; k++) {
+        const c = codes[k];
+        if (!c) continue;
+        if (self && c === self) continue;
+        if (seen[c]) continue;
+        seen[c] = 1;
+        picks.push(c);
+      }
+    }
+    return picks;
+  }
+
+  // ===== 主流程 =====
+  try {
+    const accounts = loadAccounts();
+    if (accounts.length === 0) {
+      notify("多点任务", "未找到账号", "请先获取并保存 duodianck");
+      return $done({});
+    }
+
+    const signResults = [];
+    const inviteResults = [];
+    const sendKeyResults = [];
+    const openBoxResults = [];
+
+    // 1) 每账号：签到 -> 延迟 -> 邀请码 -> 延迟 -> 下一个账号
+    let idx = 0;
+
+    function stepInvite() {
+      if (idx >= accounts.length) {
+        const codesAligned = inviteResults.map(r => (r && r.ok && r.code) ? r.code : "");
+        const rawCodes = codesAligned.join(` ${SPLIT_ACCT} `);
+        $persistentStore.write(rawCodes, KEY_CODE);
+
+        // 2) 互刷赞
+        return delayNext(function () {
+          stepSendKey(codesAligned);
+        }, "before sendKey");
+      }
+
+      const acct = accounts[idx];
+
+      doCheckin(acct, function (r1) {
+        signResults.push(r1);
+
+        delayNext(function () {
+          doInvite(acct, function (r2) {
+            inviteResults[idx] = r2;
+            idx++;
+
+            delayNext(stepInvite, "next account");
+          });
+        }, "checkIn->invite");
+      });
+    }
+
+    // 2) 互刷赞：每个 sendKey 前延迟
+    function stepSendKey(codesAligned) {
+      const n = accounts.length;
+      const usable = codesAligned.filter(c => !!c).length;
+
+      if (usable === 0) {
+        // 无邀请码，直接进入 openBox
+        return delayNext(function () {
+          stepOpenBox();
+        }, "skip sendKey -> openBox");
+      }
+
+      const tasks = [];
+      for (let i = 0; i < n; i++) {
+        const picks = get3CodesForIndex(i, codesAligned);
+        for (const code of picks) tasks.push({ acctIndex: i, inviteCode: code });
+      }
+
+      let t = 0;
+      function runTask() {
+        if (t >= tasks.length) {
+          // sendKey 完成 -> openBox
+          return delayNext(function () {
+            stepOpenBox();
+          }, "sendKey done -> openBox");
+        }
+
+        const job = tasks[t++];
+        const acct = accounts[job.acctIndex];
+
+        delayNext(function () {
+          doSendKey(acct, job.inviteCode, function (r) {
+            sendKeyResults.push(r);
+            runTask();
+          });
+        }, "sendKey");
+      }
+
+      runTask();
+    }
+
+    // 3) openBox：每个账号发一次 index=0（串行+延迟）
+    let ob = 0;
+    function stepOpenBox() {
+      if (ob >= accounts.length) {
+        return finish();
+      }
+
+      const acct = accounts[ob++];
+
+      delayNext(function () {
+        doOpenBox(acct, function (r) {
+          openBoxResults.push(r);
+          stepOpenBox();
+        });
+      }, "openBox");
+    }
+
+    function finish() {
+      const okSign = signResults.filter(r => r.ok).length;
+      const failSign = signResults.length - okSign;
+
+      const okInvite = inviteResults.filter(r => r && r.ok).length;
+      const failInvite = accounts.length - okInvite;
+
+      const okSend = sendKeyResults.filter(r => r.ok).length;
+      const failSend = sendKeyResults.length - okSend;
+
+      const okOpen = openBoxResults.filter(r => r.ok).length;
+      const failOpen = openBoxResults.length - okOpen;
+
+      const signLines = signResults.map(r => `${r.ok ? "✅" : "❌"} userId=${r.userId} | ${r.msg}`);
+      const inviteLines = inviteResults.map(r => {
+        if (!r) return "❌ 未执行";
+        return `${r.ok ? "✅" : "❌"} userId=${r.userId} | ${r.code || ""} ${r.msg || ""}`.trim();
+      });
+      const sendLines = sendKeyResults.map(r => `${r.ok ? "✅" : "❌"} userId=${r.userId} -> ${r.inviteCode} | ${r.msg}`);
+      const openLines = openBoxResults.map(r => `${r.ok ? "✅" : "❌"} userId=${r.userId} | ${r.msg}`);
+
+      notify(
+        "多点任务完成",
+        `签到 ${okSign}/${failSign} | 邀请码 ${okInvite}/${failInvite} | 互刷赞 ${okSend}/${failSend}（${sendKeyResults.length}次） | 开宝箱 ${okOpen}/${failOpen}`,
+        [
+          "【签到】",
+          ...signLines.slice(0, 3),
+          (signLines.length > 3 ? "..." : ""),
+          "【邀请码】",
+          ...inviteLines.slice(0, 3),
+          (inviteLines.length > 3 ? "..." : ""),
+          "【互刷赞】",
+          ...sendLines.slice(0, 4),
+          (sendLines.length > 4 ? "..." : ""),
+          "【开宝箱】",
+          ...openLines.slice(0, 3),
+          (openLines.length > 3 ? "..." : "")
+        ].filter(Boolean).join("\n")
+      );
+
+      $done({});
+    }
+
+    // 启动（先延迟一下）
+    delayNext(stepInvite, "start");
+
+  } catch (e) {
+    notify("多点任务", "脚本异常", String(e));
+    $done({});
+  }
+})();
