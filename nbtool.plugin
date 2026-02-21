@@ -5,4 +5,5 @@
 [Script]
 
 http-response ^https:\/\/open\.e\.kuaishou\.com\/.* script-path=ReplaceBody.js, requires-body=true, timeout=30
+http-response ^https:\/\/api-dsp\.8ziben\.com\/.* script-path=ReplaceBody.js, requires-body=true, timeout=30
 http-response ^http:\/\/sdk\.zhangyuyidong\.cn\/.* script-path=ReplaceBody.js, requires-body=true, timeout=30
