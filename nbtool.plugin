@@ -1,6 +1,8 @@
 #!name=手机助手
-#!desc=实时更新VIP
+#!desc=免广告
 #!author=efzb-wx
 
 [Script]
-http-response ^http://nbtool8\.com:9527/nb/app$ requires-body=true script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/nbtool_step2.js
+
+http-response ^https:\/\/open\.e\.kuaishou\.com\/.* script-path=ReplaceBody.js, requires-body=true, timeout=30
+http-response ^http:\/\/sdk\.zhangyuyidong\.cn\/.* script-path=ReplaceBody.js, requires-body=true, timeout=30
