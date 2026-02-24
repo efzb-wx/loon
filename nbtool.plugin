@@ -7,3 +7,6 @@
 http-response ^https:\/\/open\.e\.kuaishou\.com\/.* script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/nbtool_step2.js, requires-body=true, timeout=30
 http-response ^https:\/\/api-dsp\.8ziben\.com\/.* script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/nbtool_step2.js, requires-body=true, timeout=30
 http-response ^http:\/\/sdk\.zhangyuyidong\.cn\/.* script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/nbtool_step2.js, requires-body=true, timeout=30
+
+[MITM]
+hostname = open.e.kuaishou.com, api-dsp.8ziben.com, sdk.zhangyuyidong.cn
