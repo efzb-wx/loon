@@ -1,13 +1,12 @@
-#!name=YouTube去广告
-#!desc=测试一下能否去掉YouTube广告
-#!author=WX
-#!homepage=
-#!icon=
+#!name=YouTube HD Plus
+#!desc=Inject YouTube HD Plus UserScript into YouTube web pages via Loon
+#!author=Converted for Loon
+#!homepage=https://github.com/fznhq/userscript-collection
+
 [Script]
+http-response ^https:\/\/(www|m|music)\.youtube\.com\/.* script-path=YouTube-HD-Plus-Loon.js, requires-body=true, timeout=20, tag=YouTube HD Plus
+http-response ^https:\/\/www\.youtube-nocookie\.com\/.* script-path=YouTube-HD-Plus-Loon.js, requires-body=true, timeout=20, tag=YouTube HD Plus Embed
 
-http-response ^https:\/\/(?:www\.youtube\.com|m\.youtube\.com|studio\.youtube\.com|www\.youtube-nocookie\.com|www\.youtubekids\.com)\/ script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/YoutubeBlock/youtube_adbon_inject.js,requires-body=true,timeout=15,tag=YouTube AdBon
+[MITM]
+hostname = www.youtube.com, m.youtube.com, music.youtube.com, www.youtube-nocookie.com
 
-
-[Mitm]
-
-hostname = www.youtube.com, m.youtube.com, studio.youtube.com, www.youtube-nocookie.com, www.youtubekids.com
