@@ -1,6 +1,6 @@
 [Script]
 
-response if ${url} ~= /^https:\/\/(?:(?:www|m)\.youtube\.com\/|studio\.youtube\.com\/|www\.youtube-nocookie\.com\/embed\/|www\.youtubekids\.com\/)/i && ${response.header['Content-Type']} ~= /text\/html/i then script("youtube_adbon_inject.js") with tag="YouTube AdBon", timeout=15, requires_body=true
+http-response ^https:\/\/(?:www\.youtube\.com|m\.youtube\.com|studio\.youtube\.com|www\.youtube-nocookie\.com|www\.youtubekids\.com)\/ script-path=youtube_adbon_inject.js,requires-body=true,timeout=15,tag=YouTube AdBon
 
 
 [Mitm]
