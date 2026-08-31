@@ -1,13 +1,10 @@
-#!name = YouTube 手机版增强 0.5.1
-#!desc = 基于“ YouTube 脚本手机版 0.5.1 ”转换：移除展示广告、检测并跳过视频广告，并在 m.youtube.com 操作栏加入下载按钮。仅作用于 YouTube 移动网页版。
-#!author = sl00p / Loon port
-#!system = iOS,iPadOS,macOS
-#!loon_version = 3.5.1(983)
-#!tag = YouTube,去广告,增强
-#!type = normal
+#!name=YouTube 手机版增强 0.5.1 Legacy
+#!desc=兼容 Loon 3.5.1(982) 及更早版本：YouTube 移动网页版去展示广告、自动跳过视频广告、增加下载按钮。
+#!author=sl00p / Loon legacy port
+#!tag=YouTube,去广告,增强
 
 [Script]
-response if ${url} ~= /^https:\/\/m\.youtube\.com\//i && ${response.status} == 200 && ${response.header['Content-Type']} ~= /text\/html/i then script("YouTubeMobileInject.js") with tag="YouTube 手机版网页注入", timeout=10, requires_body=true
+http-response ^https:\/\/m\.youtube\.com\/ requires-body=true,max-size=0,script-path=YouTubeMobileInject_Legacy.js,timeout=10,tag=YouTube手机版网页注入,enable=true
 
-[Mitm]
+[MITM]
 hostname = m.youtube.com
