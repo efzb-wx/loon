@@ -4,7 +4,7 @@
 #!tag=YouTube,去广告,增强
 
 [Script]
-http-response ^https:\/\/m\.youtube\.com\/ requires-body=true,max-size=0,script-path=YouTubeMobileInject_Legacy.js,timeout=10,tag=YouTube手机版网页注入,enable=true
+http-response ^https:\/\/m\.youtube\.com\/ requires-body=true,max-size=0,script-path=https://raw.githubusercontent.com/efzb-wx/loon/refs/heads/main/YoutubeBlock/YouTubeMobileInject.js,timeout=10,tag=YouTube手机版网页注入,enable=true
 
 [MITM]
 hostname = m.youtube.com
