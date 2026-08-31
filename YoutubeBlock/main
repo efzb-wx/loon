@@ -1,0 +1,8 @@
+[Script]
+
+response if ${url} ~= /^https:\/\/(?:(?:www|m)\.youtube\.com\/|studio\.youtube\.com\/|www\.youtube-nocookie\.com\/embed\/|www\.youtubekids\.com\/)/i && ${response.header['Content-Type']} ~= /text\/html/i then script("youtube_adbon_inject.js") with tag="YouTube AdBon", timeout=15, requires_body=true
+
+
+[Mitm]
+
+hostname = www.youtube.com, m.youtube.com, studio.youtube.com, www.youtube-nocookie.com, www.youtubekids.com
